@@ -1,0 +1,14 @@
+Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+The data files in this repository (data/) are licensed under the Creative
+Commons Attribution 4.0 International License. To view a copy of this
+license, visit https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt the material for any purpose, even
+commercially, provided you give appropriate credit (see CITATION.cff),
+provide a link to the license, and indicate if changes were made.
+
+The reference-station records redistributed under data/reference/ originate
+from the London Air Quality Network (Environmental Research Group, Imperial
+College London) via the public LondonAir API; please also acknowledge
+ERG / LAQN when reusing them.
