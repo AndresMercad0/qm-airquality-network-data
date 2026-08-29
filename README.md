@@ -158,9 +158,11 @@ more substantially, so a segmented analysis is recommended.
 - **No gap-filling or QC.** Rows are written as measured; gaps exist from
   power and network outages, node relocations and sensor failures.
 - The MQ131 ozone channel degrades noticeably in winter conditions.
-- The `site` value for node_3 appears both as `QMUL` and as
-  `Queen Mary University of London` across the period; treat them as the same
-  site.
+- The `site` tag is not perfectly uniform across files: the campus nodes
+  mostly record it as `QMUL`, node_3 switches from `QMUL` to
+  `Queen Mary University of London` partway through the period, and
+  node_TH2_MER uses the long form throughout. Treat `QMUL` and
+  `Queen Mary University of London` as the same site.
 - Timestamps are UTC.
 
 ---
