@@ -156,13 +156,13 @@ more substantially, so a segmented analysis is recommended.
 
 ## Data quality and processing notes
 
-- **Raw and uncalibrated.** Gas channels are in sensor-native units (ADC
+- **Raw and uncalibrated.** Gas readings are in sensor-native units (ADC
   counts, volts, index values), not concentrations. Calibration against the
   co-located reference stations is the subject of a separate study (manuscript
   in preparation).
 - **No gap-filling or QC.** Rows are written as measured; gaps exist from
   power and network outages, node relocations and sensor failures.
-- The MQ131 ozone channel degrades noticeably in winter conditions.
+- The MQ131 ozone signal degrades noticeably in winter conditions.
 - The `site` tag is not perfectly uniform across files: the campus nodes
   mostly record it as `QMUL`, node_3 switches from `QMUL` to
   `Queen Mary University of London` partway through the period, and
