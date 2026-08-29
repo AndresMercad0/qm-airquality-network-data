@@ -24,15 +24,15 @@ preserved at its original collection frequency.
 One CSV per node or station, covering the full period 16 April 2025 to 10 June
 2026. The files are stored with **Git LFS** because each node file is large.
 
-| File | Node | Sensor tier | Channels |
+| File | Node | Sensor tier | Pollutants and signals |
 |---|---|---|---|
-| `data/node_1.csv` | node_1 | Low | full low-cost set |
-| `data/node_2.csv` | node_2 | Low | full low-cost set |
-| `data/node_3.csv` | node_3 | Low + mid | low-cost set + Alphasense |
-| `data/node_4.csv` | node_4 | Low | full low-cost set |
-| `data/node_5.csv` | node_5 | Low + mid | low-cost set + Alphasense |
-| `data/node_6.csv` | node_6 | Low | full low-cost set |
-| `data/node_7.csv` | node_7 | Low | full low-cost set |
+| `data/node_1.csv` | node_1 | Low | NO2, CO, O3, PM2.5, PM10, VOC, T, RH |
+| `data/node_2.csv` | node_2 | Low | NO2, CO, O3, PM2.5, PM10, VOC, T, RH |
+| `data/node_3.csv` | node_3 | Low + mid | the low-cost set, plus mid-cost NO2, O3, CO |
+| `data/node_4.csv` | node_4 | Low | NO2, CO, O3, PM2.5, PM10, VOC, T, RH |
+| `data/node_5.csv` | node_5 | Low + mid | the low-cost set, plus mid-cost NO2, O3, CO |
+| `data/node_6.csv` | node_6 | Low | NO2, CO, O3, PM2.5, PM10, VOC, T, RH |
+| `data/node_7.csv` | node_7 | Low | NO2, CO, O3, PM2.5, PM10, VOC, T, RH |
 | `data/reference/node_TH2_MER.csv` | node_TH2_MER | Reference | NO2, PM2.5 |
 | `data/reference/node_TH7_KEMP.csv` | node_TH7_KEMP | Reference | NO2, PM2.5 |
 
@@ -82,24 +82,29 @@ node_5 rather than being the exact borough station coordinates.
 
 ### Low-cost sensors (all seven nodes)
 
-| Sensor | Manufacturer | Measurements | Sampling |
+| Sensor | Manufacturer | Pollutant / signal | Sampling |
 |---|---|---|---|
-| SHT45 | Sensirion | Temperature, humidity | 30 s |
-| SGP40 | Sensirion | VOC (raw + index) | 30 s |
-| SPS30 | Sensirion | PM2.5, PM10 | 30 s |
-| Multichannel Gas v2 | Seeed | NO2, CO (raw) | 30 s |
-| MQ131 (via ADS1115) | - | O3 (raw + voltage) | 30 s |
+| SHT45 | Sensirion AG | Temperature, humidity | 30 s |
+| SGP40 | Sensirion AG | VOC (raw + index) | 30 s |
+| SPS30 | Sensirion AG | PM2.5, PM10 | 30 s |
+| GM-702B and GM-102B (on the Grove Multichannel Gas v2 board) | Zhengzhou Winsen Electronics (sensors); Seeed Studio (carrier board) | CO, NO2 (raw) | 30 s |
+| MQ131, low concentration (on an FC-22 board, via ADS1115) | Zhengzhou Winsen Electronics | O3 (raw + voltage) | 30 s |
 
 ### Mid-cost sensors (nodes 3 and 5 only)
 
-Alphasense B-series electrochemical cells on ISB boards, read through ADS1115
-ADCs: NO2-B43F, OX-B431 (ozone) and CO-B4. Each cell reports two working
+Alphasense Ltd B-series electrochemical cells on Individual Sensor Boards
+(ISB), read through Texas Instruments ADS1115 ADCs: NO2-B43F, OX-B431
+(oxidising, O3 + NO2) and CO-B4. Each cell reports its working and auxiliary
 electrodes (OP1, OP2) as raw ADC counts and volts.
 
 ### Reference stations (TH2, TH7)
 
-Tower Hamlets borough reference monitors from the London Air Quality Network
-(LAQN), reporting NO2 and PM2.5 in ug/m3 at 15-minute resolution.
+Tower Hamlets borough stations of the London Air Quality Network (LAQN),
+reporting NO2 and PM2.5 in ug/m3 at 15-minute resolution. PM2.5 is measured
+by a Met One BAM 1020 (beta attenuation); NO2 by a chemiluminescence
+analyser (LAQN/AURN specification). Note: the `_met_one_` fragment in the
+NO2 column name is historical naming from the internal pipeline; the NO2
+instrument is not a Met One device.
 
 ---
 
@@ -169,12 +174,18 @@ more substantially, so a segmented analysis is recommended.
 
 ## Reference data attribution
 
-The reference records (TH2 Mile End Road, TH7 King Edward Memorial Park)
-originate from the Tower Hamlets stations of the **London Air Quality Network
-(LAQN)**, retrieved via the public LondonAir API of the Environmental Research
-Group (ERG), Imperial College London. They are redistributed here for
-reproducibility with attribution; please acknowledge ERG / LAQN when reusing
-them.
+Government reference data from stations TH2 (Mile End Road) and TH7 (King
+Edward Memorial Park) were obtained from the Environmental Research Group of
+Imperial College London, using data from the London Air Quality Network.
+This information is licensed under the terms of the **Open Government Licence
+v2.0**. Please give the same credit when reusing the files under
+`data/reference/`.
+
+- Imperial College London, Environmental Research Group, "Air quality
+  networks". https://www.imperial.ac.uk/medicine/departments/school-public-health/environmental-research-group/research/measurement/air-quality-networks/
+- Imperial College London, Environmental Research Group, "Environmental
+  Research Group Application Programming Interface (ERG API), v1.3", London
+  Air Quality Network. http://api.erg.ic.ac.uk/AirQuality/Information/Documentation/pdf
 
 ## Licence and citation
 
