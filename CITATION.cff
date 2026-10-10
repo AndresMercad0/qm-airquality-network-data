@@ -2,6 +2,9 @@ cff-version: 1.2.0
 message: "If you use this dataset, please cite it as below."
 type: dataset
 title: "QM Air Quality Network Data: 14 months of raw multi-tier air-quality measurements from a low-cost IoT network in London"
+version: 1.0.0
+date-released: 2026-10-10
+abstract: "Fourteen months (16 April 2025 to 10 June 2026) of raw measurements from seven identical low-cost IoT air-quality nodes at Queen Mary University of London (Mile End campus) and King Edward Memorial Park, London: three indoor-outdoor pairs and two nodes that also carry mid-cost Alphasense electrochemical sensors, together with the co-located NO2 and PM2.5 records of the London Air Quality Network stations TH2 and TH7. No calibration, quality control, resampling or gap-filling has been applied."
 authors:
   - family-names: "Mercado-Velazquez"
     given-names: "Andres Aharhel"
@@ -12,11 +15,32 @@ authors:
   - family-names: "Escamilla-Ambrosio"
     given-names: "Ponciano Jorge"
     affiliation: "Instituto Politecnico Nacional"
-year: 2026
 url: "https://github.com/AndresMercad0/qm-airquality-network-data"
+repository: "https://github.com/AndresMercad0/qm-airquality-network-data"
 license: CC-BY-4.0
+keywords:
+  - air quality
+  - low-cost sensors
+  - IoT
+  - sensor calibration
+  - indoor-outdoor
+  - London
 references:
   - type: conference-paper
     title: "Design and Implementation of a Low-Cost IoT Air-Quality Monitoring Network at Queen Mary University of London Mile End Campus"
+    authors:
+      - family-names: "Mercado-Velazquez"
+        given-names: "Andres Aharhel"
+      - family-names: "Poslad"
+        given-names: "Stefan"
+      - family-names: "Escamilla-Ambrosio"
+        given-names: "Ponciano Jorge"
     doi: "10.1007/978-3-032-19019-2_7"
     year: 2026
+  - type: software
+    title: "QM Air Quality Network Calibration"
+    authors:
+      - family-names: "Mercado-Velazquez"
+        given-names: "Andres Aharhel"
+    doi: "10.5281/zenodo.22850320"
+    url: "https://github.com/AndresMercad0/qm-airquality-network-calibration"

@@ -10,6 +10,8 @@ records of two Tower Hamlets reference stations.
 The stations themselves (hardware design and firmware) are documented at
 **[qm-airquality-network](https://github.com/AndresMercad0/qm-airquality-network)**.
 
+**Version:** release **v1.0.0** (10 October 2026). The release tag and its commit identify the version of the files; the dataset has no DOI yet. The calibration code that uses these records, with the reference download of that study, is archived at **[qm-airquality-network-calibration](https://github.com/AndresMercad0/qm-airquality-network-calibration)** (Zenodo, https://doi.org/10.5281/zenodo.22850320).
+
 **Source:** raw wide-format CSVs exported from the QMUL IoT Lab InfluxDB
 server (low-cost nodes 1 to 7) and the LondonAir API (reference stations TH2
 and TH7). No resampling, calibration or gap-filling has been applied; data is
@@ -84,11 +86,13 @@ node_5 rather than being the exact borough station coordinates.
 
 | Sensor | Manufacturer | Pollutant / signal | Sampling |
 |---|---|---|---|
-| SHT45 | Sensirion AG | Temperature, humidity | 30 s |
-| SGP40 | Sensirion AG | VOC (raw + index) | 30 s |
-| SPS30 | Sensirion AG | PM2.5, PM10 | 30 s |
-| GM-702B and GM-102B (on the Grove Multichannel Gas v2 board) | Zhengzhou Winsen Electronics (sensors); Seeed Studio (carrier board) | CO, NO2 (raw) | 30 s |
-| MQ131, low concentration (on an FC-22 board, via ADS1115) | Zhengzhou Winsen Electronics | O3 (raw + voltage) | 30 s |
+| SHT45 | Sensirion AG | Temperature, humidity | one reading per cycle |
+| SGP40 | Sensirion AG | VOC (raw + index) | one reading per cycle |
+| SPS30 | Sensirion AG | PM2.5, PM10 | one reading per cycle |
+| GM-702B and GM-102B (on the Grove Multichannel Gas v2 board) | Zhengzhou Winsen Electronics (sensors); Seeed Studio (carrier board) | CO, NO2 (raw) | one reading per cycle |
+| MQ131, low concentration (on an FC-22 board, via ADS1115) | Zhengzhou Winsen Electronics | O3 (raw + voltage) | one reading per cycle |
+
+Each acquisition cycle reads all sensors, stores the row locally, sends unsynchronised rows to the server, and then pauses for 30 s. The interval between rows is therefore not fixed: its median is 32 to 39 s depending on the node (see [Coverage and gaps](#coverage-and-gaps)).
 
 ### Mid-cost sensors (nodes 3 and 5 only)
 
@@ -154,12 +158,29 @@ more substantially, so a segmented analysis is recommended.
 
 ---
 
+## Coverage and gaps
+
+Computed from the files of release v1.0.0. "Bins with a record" is the share of the 15-minute intervals of the period that hold at least one row.
+
+| File | Rows | Median interval (s) | Bins with a record (%) | Gaps > 24 h (number, total days) | Longest gap (days) |
+|---|---|---|---|---|---|
+| node_1 | 856,093 | 38 | 98.9 | 1, 4.7 | 4.7 |
+| node_2 | 1,063,563 | 32 | 97.1 | 2, 11.4 | 9.6 |
+| node_3 | 713,300 | 39 | 82.0 | 5, 75.6 | 33.0 |
+| node_4 | 700,257 | 38 | 80.9 | 4, 79.7 | 48.8 |
+| node_5 | 660,664 | 34 | 86.4 | 7, 54.7 | 24.5 |
+| node_6 | 1,020,218 | 32 | 98.2 | 2, 7.5 | 4.5 |
+| node_7 | 977,201 | 32 | 99.2 | 1, 3.1 | 3.1 |
+| node_TH2_MER | 40,277 | 900 | 99.8 | 0 | 0.5 |
+| node_TH7_KEMP | 40,315 | 900 | 99.8 | 0 | 0.1 |
+
+The reference files hold a row for almost every 15-minute interval, but some rows have empty values; the longest stretches without a value are about 10.7 days of NO2 at TH2 (22 January to 2 February 2026) and 15.7 days of PM2.5 at TH7 (10 to 26 January 2026).
+
+---
+
 ## Data quality and processing notes
 
-- **Raw and uncalibrated.** Gas readings are in sensor-native units (ADC
-  counts, volts, index values), not concentrations. Calibration against the
-  co-located reference stations is the subject of a separate study (manuscript
-  in preparation).
+- **Raw and uncalibrated.** Gas readings are in sensor-native units (ADC counts, volts, index values), not concentrations. Calibration against the co-located reference stations is the subject of a study accepted for publication in *Sensors* (MDPI) in October 2026; its code is in [qm-airquality-network-calibration](https://github.com/AndresMercad0/qm-airquality-network-calibration).
 - **No gap-filling or QC.** Rows are written as measured; gaps exist from
   power and network outages, node relocations and sensor failures.
 - The MQ131 ozone signal degrades noticeably in winter conditions.
@@ -168,7 +189,10 @@ more substantially, so a segmented analysis is recommended.
   `Queen Mary University of London` partway through the period, and
   node_TH2_MER uses the long form throughout. Treat `QMUL` and
   `Queen Mary University of London` as the same site.
-- Timestamps are UTC.
+- **Timestamps.** All timestamps are UTC. A node row carries the time at which its acquisition cycle started. Reference rows carry the timestamps of the ERG API, which reports in GMT (equal to UTC).
+- **Clock of node_3.** Compared with node_1 and node_6, whose PM2.5 series agree within 2 minutes in 14 of the 15 months, the series of node_3 is shifted by more than 2 minutes in 8 of 13 comparable months, and by 5 to 23 minutes from January to March 2026. The cause has not been established; analyses at 15-minute resolution should be aware of it.
+- **Revised reference values.** The reference files are the values that the ERG API served on 10 June 2026. LAQN revised earlier NO2 values after the download used by the calibration study (window ending 15 February 2026): 23,994 of 27,498 NO2 values changed at TH2 and 23,011 of 29,290 at TH7; no PM2.5 value changed. To reproduce that study, use the earlier download archived in the calibration repository.
+- **Privacy.** Subsite labels were generalised before publication so that no room occupant can be identified from the metadata.
 
 ---
 
