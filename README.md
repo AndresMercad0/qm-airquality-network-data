@@ -1,23 +1,23 @@
-<!-- title: QM Air Quality Network Data -->
 # QM Air Quality Network Data
 
 Fourteen months (**16 April 2025 to 10 June 2026**) of raw air-quality
-measurements from the **QMUL Air Quality Monitoring System (AQMS)**: seven
-low-cost IoT nodes deployed at Queen Mary University of London (Mile End
-campus) and King Edward Memorial Park, London, together with the co-located
-records of two Tower Hamlets reference stations.
+measurements from a research network of seven identical low-cost IoT nodes,
+built and deployed for a PhD project at Queen Mary University of London (Mile
+End campus) and King Edward Memorial Park, London, together with the
+co-located records of two Tower Hamlets reference stations of the London Air
+Quality Network.
 
 The stations themselves (hardware design and firmware) are documented at
 **[qm-airquality-network](https://github.com/AndresMercad0/qm-airquality-network)**.
 
-**Version:** release **v1.0.0** (10 October 2026). The release tag and its commit identify the version of the files; the dataset has no DOI yet. The calibration code that uses these records, with the reference download of that study, is archived at **[qm-airquality-network-calibration](https://github.com/AndresMercad0/qm-airquality-network-calibration)** (Zenodo, https://doi.org/10.5281/zenodo.22850320).
+**Version:** release **v1.0.1** (19 October 2026), archived on Zenodo: https://doi.org/10.5281/zenodo.23482843 (all versions: https://doi.org/10.5281/zenodo.23482842). The data files are identical to those of release v1.0.0 (10 October 2026); v1.0.1 updates this README and CITATION.cff. The calibration code that uses these records, with the reference download of that study, is archived at **[qm-airquality-network-calibration](https://github.com/AndresMercad0/qm-airquality-network-calibration)** (Zenodo, https://doi.org/10.5281/zenodo.22850320).
 
 **Source:** raw wide-format CSVs exported from the QMUL IoT Lab InfluxDB
 server (low-cost nodes 1 to 7) and the LondonAir API (reference stations TH2
 and TH7). No resampling, calibration or gap-filling has been applied; data is
 preserved at its original collection frequency.
 
-**Contact:** Andres A. Mercado-Velazquez (a.mercadovelazquez@qmul.ac.uk)
+**Contact:** Andres A. Mercado-Velazquez, andres@mevel.com.mx, https://mevel.com.mx (also a.mercadovelazquez@qmul.ac.uk)
 
 ---
 
@@ -47,15 +47,19 @@ cloning; otherwise the CSVs come down as small pointer files.
 
 | NodeID | Site | Subsite | Exposure | Environment | Latitude | Longitude |
 |---|---|---|---|---|---|---|
-| node_1 | Queen Mary University of London | Peter Landin Building office (window) | Outdoor | Pedestrian open space | 51.523158 | -0.042900 |
-| node_2 | Queen Mary University of London | Peter Landin Building office (room) | Indoor | Natural ventilation | 51.523176 | -0.042907 |
-| node_3 | Queen Mary University of London | Mile End Road | Outdoor | Roadside, urban traffic | 51.522530 | -0.042155 |
-| node_4 | Queen Mary University of London | Engineering Building (adjacent room to Mile End Road) | Indoor | Mechanical ventilation | 51.522586 | -0.042202 |
-| node_5 | King Edward Memorial Park | Glamis Rd & A1203 | Outdoor | Roadside, urban traffic | 51.509477 | -0.050541 |
-| node_6 | Queen Mary University of London | Engineering Building (window) then People's Palace (window) | Outdoor | Pedestrian open space | 51.523036 then 51.523179 | -0.041493 then -0.041315 |
-| node_7 | Queen Mary University of London | Engineering Building (room) then People's Palace (room) | Indoor | Mixed then mechanical ventilation | 51.523042 then 51.523192 | -0.041542 then -0.041298 |
-| node_TH2_MER | Queen Mary University of London | Mile End Road | Outdoor | Roadside, urban traffic | 51.522530 | -0.042155 |
-| node_TH7_KEMP | King Edward Memorial Park | Glamis Rd & A1203 | Outdoor | Roadside, urban traffic | 51.509477 | -0.050541 |
+| node_1 | QMUL | Peter Landin Building office | Outdoor | Pedestrian Area (No traffic; Open Space) | 51.523158 | -0.042900 |
+| node_2 | QMUL | Peter Landin Building office | Indoor | Natural Ventilation - Room occupied by 1 person | 51.523176 | -0.042907 |
+| node_3 | QMUL, then Queen Mary University of London | Mile End Road | Outdoor | Roadside - Urban Traffic | 51.522530 | -0.042155 |
+| node_4 | QMUL | Engineering Building (adjacent room to Mile End Road) | Indoor | Mechanical Ventilation - Room not occupied | 51.522586 | -0.042202 |
+| node_5 | King Edward Memorial Park | Glamis Rd & A1203 | Outdoor | Roadside - Urban Traffic | 51.509477 | -0.050541 |
+| node_6 | QMUL | Engineering Building, then People's Palace | Outdoor | Pedestrian Area (No traffic; Open Space) | 51.523036 then 51.523179 | -0.041493 then -0.041315 |
+| node_7 | QMUL | Engineering Building, then People's Palace | Indoor | Natural and Mechanical Ventilation - Room occupied for 3 to 6 people, then Mechanical Ventilation - Room not occupied | 51.523042 then 51.523192 | -0.041542 then -0.041298 |
+| node_TH2_MER | Queen Mary University of London | Mile End Road | Outdoor | Roadside - Urban Traffic | 51.52253 | -0.042155 |
+| node_TH7_KEMP | King Edward Memorial Park | Glamis Road and A1203 | Outdoor | Roadside - Urban Traffic | 51.509477 | -0.050541 |
+
+The site, subsite and environment values are the labels written in the files.
+Nodes 1 and 6 sit at windows (outdoor side) and nodes 2 and 7 in the rooms
+behind them.
 
 Nodes 6 and 7 were relocated between 16 and 19 June 2025; see
 [Node relocation event](#node-relocation-event).
@@ -105,10 +109,10 @@ electrodes (OP1, OP2) as raw ADC counts and volts.
 
 Tower Hamlets borough stations of the London Air Quality Network (LAQN),
 reporting NO2 and PM2.5 in ug/m3 at 15-minute resolution. PM2.5 is measured
-by a Met One BAM 1020 (beta attenuation); NO2 by a chemiluminescence
-analyser (LAQN/AURN specification). Note: the `_met_one_` fragment in the
-NO2 column name is historical naming from the internal pipeline; the NO2
-instrument is not a Met One device.
+by beta attenuation (London Air method code BAMH) and NO2 by a
+chemiluminescence analyser. Note: the `_met_one_` fragment in both column
+names is historical naming from the internal pipeline and does not identify
+the instrument.
 
 ---
 
@@ -168,7 +172,7 @@ Computed from the files of release v1.0.0. "Bins with a record" is the share of 
 | node_2 | 1,063,563 | 32 | 97.1 | 2, 11.4 | 9.6 |
 | node_3 | 713,300 | 39 | 82.0 | 5, 75.6 | 33.0 |
 | node_4 | 700,257 | 38 | 80.9 | 4, 79.7 | 48.8 |
-| node_5 | 660,664 | 34 | 86.4 | 7, 54.7 | 24.5 |
+| node_5 | 660,664 | 34 | 86.4 | 7, 54.7 | 24.4 |
 | node_6 | 1,020,218 | 32 | 98.2 | 2, 7.5 | 4.5 |
 | node_7 | 977,201 | 32 | 99.2 | 1, 3.1 | 3.1 |
 | node_TH2_MER | 40,277 | 900 | 99.8 | 0 | 0.5 |
@@ -180,7 +184,7 @@ The reference files hold a row for almost every 15-minute interval, but some row
 
 ## Data quality and processing notes
 
-- **Raw and uncalibrated.** Gas readings are in sensor-native units (ADC counts, volts, index values), not concentrations. Calibration against the co-located reference stations is the subject of a study accepted for publication in *Sensors* (MDPI) in October 2026; its code is in [qm-airquality-network-calibration](https://github.com/AndresMercad0/qm-airquality-network-calibration).
+- **Raw and uncalibrated.** Gas readings are in sensor-native units (ADC counts, volts, index values), not concentrations. Calibration against the co-located reference stations is the subject of a study published in *Sensors* 26(20), 6441 (2026), https://doi.org/10.3390/s26206441; its code is in [qm-airquality-network-calibration](https://github.com/AndresMercad0/qm-airquality-network-calibration).
 - **No gap-filling or QC.** Rows are written as measured; gaps exist from
   power and network outages, node relocations and sensor failures.
 - The MQ131 ozone signal degrades noticeably in winter conditions.
@@ -190,8 +194,9 @@ The reference files hold a row for almost every 15-minute interval, but some row
   node_TH2_MER uses the long form throughout. Treat `QMUL` and
   `Queen Mary University of London` as the same site.
 - **Timestamps.** All timestamps are UTC. A node row carries the time at which its acquisition cycle started. Reference rows carry the timestamps of the ERG API, which reports in GMT (equal to UTC).
-- **Clock of node_3.** Compared with node_1 and node_6, whose PM2.5 series agree within 2 minutes in 14 of the 15 months, the series of node_3 is shifted by more than 2 minutes in 8 of 13 comparable months, and by 5 to 23 minutes from January to March 2026. The cause has not been established; analyses at 15-minute resolution should be aware of it.
-- **Revised reference values.** The reference files are the values that the ERG API served on 10 June 2026. LAQN revised earlier NO2 values after the download used by the calibration study (window ending 15 February 2026): 23,994 of 27,498 NO2 values changed at TH2 and 23,011 of 29,290 at TH7; no PM2.5 value changed. To reproduce that study, use the earlier download archived in the calibration repository.
+- **Clock of node_3.** Compared with node_1 and node_6, whose PM2.5 series agree within 2 minutes in 14 of the 15 months, the series of node_3 is shifted by more than 2 minutes in 8 of 13 comparable months, and by 5 to 23 minutes from January to May 2026. The cause has not been established; analyses at 15-minute resolution should be aware of it.
+- **Revised reference values.** The reference files are the values that the ERG API served on 10 June 2026. LAQN revised earlier NO2 values after the download used by the calibration study (window ending 15 February 2026): 23,994 of 27,498 NO2 values changed at TH2 and 23,011 of 29,290 at TH7; no PM2.5 value changed, although 124 timestamps at TH2 and 209 at TH7 gained or lost a PM2.5 value. To reproduce that study, use the earlier download archived in the calibration repository.
+- **Provisional reference data.** As of 17 October 2026, London Air marks the TH2 NO2 of the whole period as provisional, the TH7 NO2 as provisional from January 2026, and the PM2.5 of both stations as provisional from late January 2026. Later ratification may change these values; a future release will carry a new download.
 - **Privacy.** Subsite labels were generalised before publication so that no room occupant can be identified from the metadata.
 
 ---
@@ -213,17 +218,39 @@ v2.0**. Please give the same credit when reusing the files under
 
 ## Licence and citation
 
-The dataset is released under **CC BY 4.0** (see [LICENSE](LICENSE)). If you
-use it, please cite it (see [CITATION.cff](CITATION.cff)) together with:
+The node files are released under **CC BY 4.0** (see [LICENSE](LICENSE)); the
+reference files under the Open Government Licence v2.0 (see above). If you
+use the dataset, please cite it (see [CITATION.cff](CITATION.cff)):
+
+- Mercado-Velazquez, A. A., Poslad, S., & Escamilla-Ambrosio, P. J. (2026).
+  *QM Air Quality Network Data: 14 months of raw multi-tier air-quality
+  measurements from a low-cost IoT network in London* (Version 1.0.1)
+  [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23482843
+
+together with the papers that describe the network and the calibration study:
 
 - Mercado-Velazquez, A. A., Poslad, S., & Escamilla-Ambrosio, P. J. (2026).
   *Design and Implementation of a Low-Cost IoT Air-Quality Monitoring Network
   at Queen Mary University of London Mile End Campus*. Smart Cities
   (ICSC-CITIES 2025), CCIS vol. 2742, Springer.
   https://doi.org/10.1007/978-3-032-19019-2_7
+- Mercado-Velazquez, A. A., Escamilla-Ambrosio, P. J., Bodanese, E.,
+  Islam, M., Toosy, F., Mosler, G., & Poslad, S. (2026). How Accurate Are
+  Low-Cost Air Quality Sensors? A 10-Month Study of Three-Tier Comparison with
+  Three Calibration Methods and Cross-Site Transferability. *Sensors*, 26(20),
+  6441. https://doi.org/10.3390/s26206441
+
+## Acknowledgements and funding
+
+The co-location of nodes 3 and 5 with the reference stations TH2 and TH7, and
+the indoor site of node 4, were made possible by a collaboration with the
+Pollution Team of the London Borough of Tower Hamlets. This work was supported
+by Queen Mary University of London, by Instituto Politécnico Nacional (project
+grants SIP-20251080 and SIP-20260190), and by Fundación Politécnico A.C.
+(Mexico), which provided the doctoral scholarship of A. A. Mercado-Velazquez.
 
 ## Contact
 
-Andres Aharhel Mercado-Velazquez, IoT2US Lab, School of Electronic
-Engineering and Computer Science, Queen Mary University of London.
-a.mercadovelazquez@qmul.ac.uk
+Andres Aharhel Mercado-Velazquez: andres@mevel.com.mx, https://mevel.com.mx.
+While at Queen Mary University of London (IoT2US Lab, School of Electronic
+Engineering and Computer Science), also a.mercadovelazquez@qmul.ac.uk.
